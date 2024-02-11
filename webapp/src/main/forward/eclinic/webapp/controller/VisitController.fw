@@ -1,0 +1,61 @@
+// SPDX-License-Identifier: MIT
+
+import {
+    java.lang.Iterable
+    java.lang.Long
+    java.lang.Object
+
+    org.springframework.beans.factory.annotation.Autowired
+
+    org.springframework.web.bind.annotation.DeleteMapping
+    org.springframework.web.bind.annotation.GetMapping
+    org.springframework.web.bind.annotation.PathVariable
+    org.springframework.web.bind.annotation.PostMapping
+    org.springframework.web.bind.annotation.RequestBody
+    org.springframework.web.bind.annotation.RequestMapping
+    org.springframework.web.bind.annotation.RestController
+
+    eclinic.model.Visit
+    eclinic.data.VisitRepository
+}
+
+class eclinic.webapp.controller.VisitController [
+    RestController
+    RequestMapping[value { "/visits" }]
+]
+
+constructor():void { }
+
+repository:VisitRepository [Autowired]
+
+create(visit:Visit [RequestBody]):Visit [
+    PostMapping[value { "/" }]
+] {
+    return [Visit]repository->save([Object]visit)
+}
+
+findAll():Iterable [
+    GetMapping[value { "/" }]
+] {
+    return repository->findAll()
+}
+
+findById(
+    id:Long [
+        PathVariable[name { "id" }]
+    ]
+):Visit [
+    GetMapping[value { "/{id}" }]
+] {
+    return [Visit]repository->findById([Object]id)->get()
+}
+
+deleteById(
+    id:Long [
+        PathVariable[name { "id" }]
+    ]
+):void [
+    DeleteMapping[value { "/{id}" }]
+] {
+    repository->deleteById([Object]id)
+}

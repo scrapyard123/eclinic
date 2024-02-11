@@ -1,0 +1,39 @@
+// SPDX-License-Identifier: MIT
+
+import {
+    java.lang.Class
+    java.lang.Long
+    java.lang.Object
+
+    java.util.Objects
+
+    jakarta.persistence.GeneratedValue
+    jakarta.persistence.Id
+    jakarta.persistence.MappedSuperclass
+
+    eclinic.Bridge
+}
+
+class eclinic.model.BaseEntity [MappedSuperclass]
+
+constructor():void {}
+
+id:Long [
+    Id
+    GeneratedValue
+]
+getId():Long { return id }
+setId(upd:Long):void { id = upd }
+
+hashCode():int { return Objects->hashCode([Object]id) }
+
+equals(obj:Object):bool! {
+    var clazz:Class = BaseEntity
+    if Bridge->toInt(clazz->isInstance(obj)) {
+        var that:BaseEntity = [BaseEntity]obj
+        return Objects->equals(
+            [Object]id
+            [Object]that->getId())
+    }
+    return Bridge->toBool(1)
+}

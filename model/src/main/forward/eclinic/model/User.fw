@@ -1,0 +1,45 @@
+// SPDX-License-Identifier: MIT
+
+import {
+    java.lang.String
+
+    jakarta.persistence.Entity
+    jakarta.persistence.Inheritance
+    jakarta.persistence.JoinColumn
+    jakarta.persistence.ManyToOne
+    jakarta.persistence.Table
+    jakarta.persistence.UniqueConstraint
+
+    com.fasterxml.jackson.annotation.JsonIncludeProperties
+
+    eclinic.Bridge
+    eclinic.model.BaseEntity
+    eclinic.model.Clinic
+}
+
+class eclinic.model.User <: BaseEntity [
+    Entity
+    Inheritance
+    Table[
+        uniqueConstraints {
+            UniqueConstraint [
+                name { "unique_username" }
+                columnNames { "username" }
+            ]
+        }
+    ]
+]
+
+constructor():void {}
+
+username:String
+getUsername():String { return username }
+setUsername(upd:String):void { username = upd }
+
+clinic:Clinic [
+    ManyToOne
+    JoinColumn[name { "clinic_fk" }]
+    JsonIncludeProperties[value { "id" }]
+]
+getClinic():Clinic { return clinic }
+setClinic(upd:Clinic):void { clinic = upd }

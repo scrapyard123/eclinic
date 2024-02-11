@@ -1,0 +1,87 @@
+// SPDX-License-Identifier: MIT
+
+import {
+    java.lang.Iterable
+    java.lang.Long
+    java.lang.Object
+
+    org.springframework.beans.factory.annotation.Autowired
+
+    org.springframework.web.bind.annotation.GetMapping
+    org.springframework.web.bind.annotation.PathVariable
+    org.springframework.web.bind.annotation.PostMapping
+    org.springframework.web.bind.annotation.PutMapping
+    org.springframework.web.bind.annotation.RequestBody
+    org.springframework.web.bind.annotation.RequestMapping
+    org.springframework.web.bind.annotation.RestController
+
+    eclinic.Bridge
+    eclinic.model.Patient
+    eclinic.data.PatientRepository
+    eclinic.data.VisitRepository
+}
+
+class eclinic.webapp.controller.PatientController [
+    RestController
+    RequestMapping[value { "/patients" }]
+]
+
+constructor():void { }
+
+repository:PatientRepository [Autowired]
+visitRepository:VisitRepository [Autowired]
+
+create(doctor:Patient [RequestBody]):Patient [
+    PostMapping[value { "/" }]
+] {
+    return [Patient]repository->save([Object]doctor)
+}
+
+findAll():Iterable [
+    GetMapping[value { "/" }]
+] {
+    return repository->findAll()
+}
+
+findById(
+    id:Long [
+        PathVariable[name { "id" }]
+    ]
+):Patient [
+    GetMapping[value { "/{id}" }]
+] {
+    return [Patient]repository->findById([Object]id)->get()
+}
+
+upcomingVisits(
+    id:Long [
+        PathVariable[name { "id" }]
+    ]
+):Iterable [
+    GetMapping[value { "/{id}/upcoming-vists" }]
+] {
+    return [Iterable]visitRepository->findUpcomingVisits(id)
+}
+
+update(
+    id:Long [
+        PathVariable[name { "id" }]
+    ]
+    upd:Patient [RequestBody]
+):Patient [
+    PutMapping[value { "/{id}" }]
+] {
+    var patient:Patient = [Patient]repository->findById([Object]id)->get()
+
+    if Bridge->nonNull([Object]upd->getUsername()) {
+        patient->setUsername(upd->getUsername())
+    }
+    if Bridge->nonNull([Object]upd->getClinic()) {
+        patient->setClinic(upd->getClinic())
+    }
+    if Bridge->nonNull([Object]upd->getAddress()) {
+        patient->setAddress(upd->getAddress())
+    }
+
+    return [Patient]repository->save([Object]patient)
+}

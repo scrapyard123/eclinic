@@ -1,0 +1,26 @@
+// SPDX-License-Identifier: MIT
+
+import {
+    java.lang.String
+
+    jakarta.persistence.Entity
+
+    eclinic.Bridge
+    eclinic.model.BaseEntity
+}
+
+class eclinic.model.Address <: BaseEntity [Entity]
+
+constructor():void {}
+
+city:String
+getCity():String { return city }
+setCity(upd:String):void { city = upd }
+
+street:String
+getStreet():String { return street }
+setStreet(upd:String):void { street = upd }
+
+building:String
+getBuilding():String { return building }
+setBuilding(upd:String):void { building = upd }

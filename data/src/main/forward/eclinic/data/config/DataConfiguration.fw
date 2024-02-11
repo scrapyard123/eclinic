@@ -1,0 +1,19 @@
+// SPDX-License-Identifier: MIT
+
+import {
+    org.springframework.context.annotation.Configuration
+    org.springframework.boot.autoconfigure.domain.EntityScan
+    org.springframework.data.jpa.repository.config.EnableJpaRepositories
+}
+
+class eclinic.data.config.DataConfiguration [
+    Configuration
+    EntityScan[
+        basePackages{"eclinic.model"}
+    ]
+    EnableJpaRepositories[
+        basePackages{"eclinic.data"}
+    ]
+]
+
+constructor():void { }

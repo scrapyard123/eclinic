@@ -1,0 +1,75 @@
+// SPDX-License-Identifier: MIT
+
+import {
+    java.lang.Iterable
+    java.lang.Long
+    java.lang.Object
+
+    org.springframework.beans.factory.annotation.Autowired
+
+    org.springframework.web.bind.annotation.GetMapping
+    org.springframework.web.bind.annotation.PathVariable
+    org.springframework.web.bind.annotation.PostMapping
+    org.springframework.web.bind.annotation.PutMapping
+    org.springframework.web.bind.annotation.RequestBody
+    org.springframework.web.bind.annotation.RequestMapping
+    org.springframework.web.bind.annotation.RestController
+
+    eclinic.Bridge
+    eclinic.model.Doctor
+    eclinic.data.DoctorRepository
+}
+
+class eclinic.webapp.controller.DoctorController [
+    RestController
+    RequestMapping[value { "/doctors" }]
+]
+
+constructor():void { }
+
+repository:DoctorRepository [Autowired]
+
+create(doctor:Doctor [RequestBody]):Doctor [
+    PostMapping[value { "/" }]
+] {
+    return [Doctor]repository->save([Object]doctor)
+}
+
+findAll():Iterable [
+    GetMapping[value { "/" }]
+] {
+    return repository->findAll()
+}
+
+findById(
+    id:Long [
+        PathVariable[name { "id" }]
+    ]
+):Doctor [
+    GetMapping[value { "/{id}" }]
+] {
+    return [Doctor]repository->findById([Object]id)->get()
+}
+
+update(
+    id:Long [
+        PathVariable[name { "id" }]
+    ]
+    upd:Doctor [RequestBody]
+):Doctor [
+    PutMapping[value { "/{id}" }]
+] {
+    var doctor:Doctor = [Doctor]repository->findById([Object]id)->get()
+
+    if Bridge->nonNull([Object]upd->getUsername()) {
+        doctor->setUsername(upd->getUsername())
+    }
+    if Bridge->nonNull([Object]upd->getClinic()) {
+        doctor->setClinic(upd->getClinic())
+    }
+    if Bridge->nonNull([Object]upd->getSpecialization()) {
+        doctor->setSpecialization(upd->getSpecialization())
+    }
+
+    return [Doctor]repository->save([Object]doctor)
+}

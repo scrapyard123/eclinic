@@ -1,0 +1,50 @@
+// SPDX-License-Identifier: MIT
+
+import {
+    java.lang.Iterable
+    java.lang.Long
+    java.lang.Object
+
+    org.springframework.beans.factory.annotation.Autowired
+
+    org.springframework.web.bind.annotation.GetMapping
+    org.springframework.web.bind.annotation.PathVariable
+    org.springframework.web.bind.annotation.PostMapping
+    org.springframework.web.bind.annotation.RequestBody
+    org.springframework.web.bind.annotation.RequestMapping
+    org.springframework.web.bind.annotation.RestController
+
+    eclinic.model.Clinic
+    eclinic.data.ClinicRepository
+}
+
+class eclinic.webapp.controller.ClinicController [
+    RestController
+    RequestMapping[value { "/clinics" }]
+]
+
+constructor():void { }
+
+repository:ClinicRepository [Autowired]
+
+create(clinic:Clinic [RequestBody]):Clinic [
+    PostMapping[value { "/" }]
+] {
+    return [Clinic]repository->save([Object]clinic)
+}
+
+findAll():Iterable [
+    GetMapping[value { "/" }]
+] {
+    return repository->findAll()
+}
+
+findById(
+    id:Long [
+        PathVariable[name { "id" }]
+    ]
+):Clinic [
+    GetMapping[value { "/{id}" }]
+] {
+    return [Clinic]repository->findById([Object]id)->get()
+}

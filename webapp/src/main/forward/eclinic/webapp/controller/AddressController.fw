@@ -1,0 +1,50 @@
+// SPDX-License-Identifier: MIT
+
+import {
+    java.lang.Iterable
+    java.lang.Long
+    java.lang.Object
+
+    org.springframework.beans.factory.annotation.Autowired
+
+    org.springframework.web.bind.annotation.GetMapping
+    org.springframework.web.bind.annotation.PathVariable
+    org.springframework.web.bind.annotation.PostMapping
+    org.springframework.web.bind.annotation.RequestBody
+    org.springframework.web.bind.annotation.RequestMapping
+    org.springframework.web.bind.annotation.RestController
+
+    eclinic.model.Address
+    eclinic.data.AddressRepository
+}
+
+class eclinic.webapp.controller.AddressController [
+    RestController
+    RequestMapping[value { "/addresses" }]
+]
+
+constructor():void { }
+
+repository:AddressRepository [Autowired]
+
+create(address:Address [RequestBody]):Address [
+    PostMapping[value { "/" }]
+] {
+    return [Address]repository->save([Object]address)
+}
+
+findAll():Iterable [
+    GetMapping[value { "/" }]
+] {
+    return repository->findAll()
+}
+
+findById(
+    id:Long [
+        PathVariable[name { "id" }]
+    ]
+):Address [
+    GetMapping[value { "/{id}" }]
+] {
+    return [Address]repository->findById([Object]id)->get()
+}

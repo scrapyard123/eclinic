@@ -1,0 +1,37 @@
+// SPDX-License-Identifier: MIT
+
+import {
+    java.lang.Long
+    java.lang.String
+
+    java.util.Objects
+    java.util.Set
+
+    jakarta.persistence.Entity
+    jakarta.persistence.OneToMany
+
+    com.fasterxml.jackson.annotation.JsonIncludeProperties
+
+    eclinic.Bridge
+    eclinic.model.BaseEntity
+    eclinic.model.User
+    eclinic.model.Visit
+}
+
+class eclinic.model.Doctor <: User [Entity]
+
+constructor():void {}
+
+specialization:String
+getSpecialization():String { return specialization }
+setSpecialization(upd:String):void { specialization = upd }
+
+visits:Set [
+    OneToMany[
+        targetEntity { Visit }
+        mappedBy { "doctor" }
+    ]
+    JsonIncludeProperties[value { "id" }]
+]
+getVisits():Set { return visits }
+setVisits(upd:Set):void { visits = upd }

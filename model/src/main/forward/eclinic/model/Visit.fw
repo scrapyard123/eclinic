@@ -1,0 +1,59 @@
+// SPDX-License-Identifier: MIT
+
+import {
+    java.lang.Class
+    java.lang.Long
+    java.lang.Object
+    java.lang.String
+
+    java.time.OffsetDateTime
+    java.util.Objects
+
+    jakarta.persistence.Entity
+    jakarta.persistence.ManyToOne
+    jakarta.persistence.JoinColumn
+
+    com.fasterxml.jackson.annotation.JsonIncludeProperties
+
+    eclinic.Bridge
+    eclinic.model.BaseEntity
+    eclinic.model.Clinic
+    eclinic.model.Doctor
+    eclinic.model.Patient
+}
+
+class eclinic.model.Visit <: BaseEntity [Entity]
+
+constructor():void {}
+
+dateTime:OffsetDateTime
+getDateTime():OffsetDateTime { return dateTime }
+setDateTime(upd:OffsetDateTime):void { dateTime = upd }
+
+description:String
+getDescription():String { return description }
+setDescription(upd:String):void { description = upd }
+
+patient:Patient [
+    ManyToOne
+    JoinColumn[name { "patient_fk" }]
+    JsonIncludeProperties[value { "id" "username" }]
+]
+getPatient():Patient { return patient }
+setPatient(upd:Patient):void { patient = upd }
+
+doctor:Doctor [
+    ManyToOne
+    JoinColumn[name { "doctor_fk" }]
+    JsonIncludeProperties[value { "id" "username" "specialization" }]
+]
+getDoctor():Doctor { return doctor }
+setDoctor(upd:Doctor):void { doctor = upd }
+
+clinic:Clinic [
+    ManyToOne
+    JoinColumn[name { "clinic_fk" }]
+    JsonIncludeProperties[value { "id" "name" "address" }]
+]
+getClinic():Clinic { return clinic }
+setClinic(upd:Clinic):void { clinic = upd }

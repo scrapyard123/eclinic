@@ -1,0 +1,50 @@
+// SPDX-License-Identifier: MIT
+
+import {
+    java.lang.String
+
+    java.time.OffsetDateTime
+
+    jakarta.persistence.Entity
+    jakarta.persistence.JoinColumn
+    jakarta.persistence.ManyToOne
+
+    com.fasterxml.jackson.annotation.JsonIncludeProperties
+
+    eclinic.Bridge
+    eclinic.model.BaseEntity
+    eclinic.model.Doctor
+    eclinic.model.Patient
+}
+
+class eclinic.model.Entry <: BaseEntity [Entity]
+
+constructor():void {}
+
+title:String
+getTitle():String { return title }
+setTitle(upd:String):void { title = upd }
+
+dateTime:OffsetDateTime
+getDateTime():OffsetDateTime { return dateTime }
+setDateTime(upd:OffsetDateTime):void { dateTime = upd }
+
+text:String
+getText():String { return text }
+setText(upd:String):void { text = upd }
+
+patient:Patient [
+    ManyToOne
+    JoinColumn[name { "patient_fk" }]
+    JsonIncludeProperties[value { "id" "username" }]
+]
+getPatient():Patient { return patient }
+setPatient(upd:Patient):void { patient = upd }
+
+doctor:Doctor [
+    ManyToOne
+    JoinColumn[name { "doctor_fk" }]
+    JsonIncludeProperties[value { "id" "username" "specialization" }]
+]
+getDoctor():Doctor { return doctor }
+setDoctor(upd:Doctor):void { doctor = upd }
