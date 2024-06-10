@@ -18,13 +18,13 @@
     <properties>
         <maven.compiler.source>17</maven.compiler.source>
         <maven.compiler.target>17</maven.compiler.target>
-        <forward.target>17</forward.target>
+        <sylect.target>17</sylect.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
 
     <build>
-        <sourceDirectory>src/main/forward</sourceDirectory>
-        <testSourceDirectory>src/test/forward</testSourceDirectory>
+        <sourceDirectory>src/main/sylect</sourceDirectory>
+        <testSourceDirectory>src/test/sylect</testSourceDirectory>
 
         <plugins>
             <plugin>
@@ -33,7 +33,7 @@
                 <version>3.2.2</version>
             </plugin>
             <plugin>
-                <groupId>forward</groupId>
+                <groupId>sylect</groupId>
                 <artifactId>maven-plugin</artifactId>
                 <version>0.1</version>
                 <executions>
@@ -41,14 +41,14 @@
                         <id>compile</id>
                         <phase>compile</phase>
                         <goals>
-                            <goal>compile-forward</goal>
+                            <goal>compile-sylect</goal>
                         </goals>
                     </execution>
                     <execution>
                         <id>test-compile</id>
                         <phase>test-compile</phase>
                         <goals>
-                            <goal>test-compile-forward</goal>
+                            <goal>test-compile-sylect</goal>
                         </goals>
                     </execution>
                 </executions>

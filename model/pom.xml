@@ -13,7 +13,7 @@
     <artifactId>model</artifactId>
 
     <properties>
-        <forward.target>17</forward.target>
+        <sylect.target>17</sylect.target>
     </properties>
 
     <dependencies>
